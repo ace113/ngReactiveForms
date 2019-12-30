@@ -1,0 +1,48 @@
+<div class="container mt-5">
+  <h2>Registration Form</h2>
+  <form action="" [formGroup]="registrationForm">
+    <div class="form-group">
+      <label for="">Username</label>
+      <!-- we can change all occurance of the registrationForm with userName by making a get method in components -->
+      <input [class.is-invalid]="userName.invalid && userName.touched" 
+      formControlName="userName" type="text" class="form-control">
+      <!-- <small class="text-danger" [class.d-none]="registrationForm.get('userName').valid ||
+      registrationForm.get('userName').untouched">Username is required</small> -->
+      <div *ngIf="userName.invalid && userName.touched">
+          <small class="text-danger" *ngIf="userName.errors?.required">* Username is required.</small>
+          <small class="text-danger" *ngIf="userName.errors?.minlength">* Length of username must more than 3.</small>
+          <small class="text-danger" *ngIf="userName.errors?.forbiddenName">{{ userName.errors?.forbiddenName.value}} username is not allowed</small>
+      </div>
+     
+    </div>
+    <div class="form-group">
+      <label for="">Password</label>
+      <input formControlName="password" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="">Confirm Password</label>
+      <input [class.is-invalid]="registrationForm.errors?.misMatch && registrationForm.get('confirmPassword').dirty" formControlName="confirmPassword" type="password" class="form-control">
+      <small class="text-danger" *ngIf="registrationForm.errors?.misMatch && registrationForm.get('confirmPassword').dirty">Password do not match.</small>
+    </div>
+    <div formGroupName="address">
+      <div class="form-group">
+        <label for="">City</label>
+        <input formContorlName="city" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">State</label>
+        <input formContorlName="state" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">Postal Code</label>
+        <input formContorlName="postalCode" type="text" class="form-control">
+      </div>
+    </div>
+    
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <button (click)="loadApiData()" class="btn btn-secondary ml-2" type="button">Load API Data</button>
+  </form>
+
+  {{ registrationForm.value | json }}
+</div>
